@@ -68,5 +68,14 @@ var c = a
 
 3. `go mod download` 命令用于将依赖包缓存到本地 Cache
 
-4. `go list -m -json all` 显示所有 import 库信息
+4. `go mod tidy` 增加缺失的包，移除没用的包
 
+5. `go mod verify` 确认依赖关系
+
+6. `go mod why` 解释为什么需要包和模块
+
+7. `go mod graph` 把模块之间的依赖图显示出来
+
+8. `go list -m -json all` 显示所有 import 库信息
+
+在 `$GOPATH` 之外使用 go modules，如果是在现有的项目中可以直接使用`go mod init`，现有项目会根据`go remote` 自动识别 module 名，但新项目中则会报 `go: cannot determine module path for source directory`，所以需要：`go mod init xxx` xxx 为module名
