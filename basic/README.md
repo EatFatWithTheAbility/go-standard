@@ -10,6 +10,73 @@
 
 浮点数：`float32`、 `float64` 
 
+### 变量
+
+#### 变量
+1. 定义一个变量
+`var a int`
+
+2. 定义一个变量，并赋值
+`var a int = 1`
+或者
+`a := 1` 但这个只能在函数内使用
+
+#### 常量
+使用 `const` 标识
+
+
+### `switch`
+
+> 1. `switch` 会自动break，除非使用 `fallthrough`
+>     `fallthrough` 强制执行后面的case
+> 2. `switch`后 可以没有表达式
+
+```
+func switch_test(a int) {
+	switch a {
+	case 1:
+	case 2: fallthrough
+	default:
+	}
+}
+```
+
+### `if`
+
+> `if` 里可以定义局部变量
+> 
+> Tips: go 函数可以返回多返回值
+
+```
+func getResult() (result int, err error) {
+	return 1, nil
+}
+
+func main()  {
+	if result, err := getResult(); err == nil {
+		fmt.Println(result)
+	}
+}
+```
+
+### 指针
+
+> 区别在于：值传递、引用传递
+
+```
+// 引用传递
+func swap(a, b *int) {
+
+	*b, *a = *a, *b
+}
+
+func main()  {
+	a, b := 1, 2
+	swap(&a, &b)
+}
+```
+
+
 
 ### 数组
 
@@ -23,12 +90,64 @@ var d = [...]int{1, 2, 4: 5, 6} // 定义长度为6的int型数组, 元素为 1,
 ```
 var a = [...]int{1, 2, 3} // a 是一个数组
 var b = &a                // b 是指向数组的指针
-var c = a          
+var c = a                 // c 只是指向 a数值，但并不能改变数组的值
 ```
 
 
 ### 切片
 
+
+### `Map`
+
+> 1. map 使用哈希表，必须比较相等
+> 2. 除了 slice，map，function 内建类型都可以作为key
+> 3. struct类型 不包含上述字段，也可作为key
+
+
+```
+// [] 里是key， 后面的 value
+m := map[string]string {
+    "haha": "lala",
+}
+
+// 遍历比较方便(无序)
+for k, v := range m {
+    fmt.Println(k, v)
+}
+
+// 获得值
+haha := m["haha"]
+
+// 判断 key 是否存在
+haha, isExist := m["hahah"]
+```
+
+### `rune`
+
+编码采用：utf-8
+
+> **UTF-8**: 是一种针对 Unicode 的可变长度字符编码，也是一种前缀码。
+> 可以用来表示 Unicode 标准中的任何字符，且其编码中的第一个字节仍与 ASCII 码兼容。
+
+go 底层存储与对外都使用 UTF-8编码
+
+so，当要处理中文字符的时候就需要注意。
+
+而 `rune` 相当与 go 的char
+
+```
+s := "你好啊，世界！"
+
+for i, ch := range s {
+	fmt.Printf("(%d, %c)", i, ch)
+}
+
+fmt.Println()
+
+for i, ch := range []rune(s) {
+    fmt.Printf("(%d, %c)", i, ch)
+}
+```
 
 ### 配置
 
@@ -79,3 +198,5 @@ var c = a
 8. `go list -m -json all` 显示所有 import 库信息
 
 在 `$GOPATH` 之外使用 go modules，如果是在现有的项目中可以直接使用`go mod init`，现有项目会根据`go remote` 自动识别 module 名，但新项目中则会报 `go: cannot determine module path for source directory`，所以需要：`go mod init xxx` xxx 为module名
+
+
