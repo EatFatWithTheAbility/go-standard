@@ -233,3 +233,10 @@ for i, ch := range []rune(s) {
 在 `$GOPATH` 之外使用 go modules，如果是在现有的项目中可以直接使用`go mod init`，现有项目会根据`go remote` 自动识别 module 名，但新项目中则会报 `go: cannot determine module path for source directory`，所以需要：`go mod init xxx` xxx 为module名
 
 
+
+
+### `struct` `pointer` `interface` 区别
+
+1. `struct` 传值，原数据的拷贝
+2. `pointer` 原数据的指针
+3. `interface `传递的是一个interface对象，这个对象占用16字节长度，包含一个指向原数据的指针，和一个指向运行时类型信息的指针。
